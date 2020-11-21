@@ -1,0 +1,39 @@
+package com.staroot.jasyptweb;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.Assert.assertEquals;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest(classes = JasyptwebApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = JasyptwebApplication.class)
+public class JasyptwebApplicationTest {
+
+	@Autowired
+    TestRestTemplate testRestTemplate;
+
+    @BeforeClass
+    public static void beforeClass() {
+		System.setProperty("jasypt.encryptor.password", "password");
+		System.out.println("hello==================");
+    }
+
+	@Test
+	public void testHome() throws Exception {
+		ResponseEntity<String> entity = testRestTemplate.getForEntity("/", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		assertEquals("Hello, Secret Property: chupacabras", entity.getBody());
+	}
+	@Test
+	public void test1() throws Exception {
+		System.out.println("hello==================");
+	}
+
+}
